@@ -1,9 +1,9 @@
 # Privacy-Preserving SCD Pain Diagnosis
 
 Identifying the likely cause of a chronic pain episode in sickle cell disease
-(SCD) patients — vaso-occlusive crisis, infection, dehydration, avascular
-necrosis, acute chest syndrome, or other — without ever exposing raw patient
-data during computation.
+(SCD) patients, including vaso-occlusive crisis, infection, dehydration,
+avascular necrosis, and acute chest syndrome, without ever exposing raw
+patient data during computation.
 
 ## Status: Early-stage research prototype
 
@@ -19,19 +19,19 @@ Sickle cell chronic pain can stem from several overlapping causes, and
 telling them apart at the point of care is difficult, especially in
 resource-constrained clinical settings. Existing machine learning work in
 this space largely focuses on predicting *whether* a crisis will occur, not
-*what* is causing a current pain episode. Separately, patient health data is
-sensitive, and any system touching it should be built so that raw data is
+*what* is causing a current pain episode. Patient health data is also
+sensitive, so any system touching it should be built so that raw data is
 never exposed to the system performing the computation.
 
 This project combines:
-- **Cause classification** — a multiclass model distinguishing likely causes
+- **Cause classification**: a multiclass model distinguishing likely causes
   of a current pain episode
-- **Homomorphic encryption (HE)** — patient feature data is encrypted before
+- **Homomorphic encryption (HE)**: patient feature data is encrypted before
   any inference is performed, so the computing system never sees plaintext
   patient data
-- **Federated learning (FL)** *(planned)* — enabling multiple clinics to
+- **Federated learning (FL)** *(planned)*: enabling multiple clinics to
   contribute to model training without sharing raw records
-- **Differential privacy (DP)** *(planned)* — protecting against information
+- **Differential privacy (DP)** *(planned)*: protecting against information
   leakage through shared model updates in the federated setting
 
 As far as we've been able to determine, this specific combination has not
@@ -67,8 +67,8 @@ pip install -r requirements.txt
    ```
    python src/generate_synthetic_data.py
    ```
-2. (Optional, for practice/testing) generate a version with realistic data
-   quality issues injected:
+2. (Optional, for practice or testing) generate a version with realistic
+   data quality issues injected:
    ```
    python src/make_data_messy.py
    ```
@@ -89,17 +89,17 @@ pip install -r requirements.txt
 ## Related work
 
 This project builds conceptually on prior work applying partial homomorphic
-encryption to healthcare data analysis, and is distinct from the closest
-related work we're aware of — a 2026 study applying federated learning
+encryption to healthcare data analysis. It is distinct from the closest
+related work we're aware of, a 2026 study applying federated learning
 (without an encryption or differential privacy layer) to a sickle cell
-classification task. This project differs by (1) adding a
-privacy-preserving encryption and DP layer on top of FL, and (2) focusing on
-cause differentiation for chronic pain rather than disease
-presence/classification.
+classification task. This project differs by (1) adding a privacy-preserving
+encryption and DP layer on top of FL, and (2) focusing on cause
+differentiation for chronic pain rather than disease presence or
+classification.
 
 ## Collaborators
 
-- Abdul Kareem Adamu ([Khemshield](https://khemshield.com)) — research design,
+- Abdul Kareem Adamu ([Khemshield](https://abdulkareem.khemshield.com)), research design,
   system architecture, implementation
 
 ## License
