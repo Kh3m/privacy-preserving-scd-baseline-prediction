@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+build/
+dist/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.conda/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment / secrets
+.env
+*.pem
+*.key
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Model artifacts (large / regenerable - decide per-file if you want to track any)
+models/*.pkl
+models/*.pt
+models/*.h5
+
+# Large data - uncomment if datasets grow too large to commit
+# data/raw/*.csv
+# data/processed/*.csv
