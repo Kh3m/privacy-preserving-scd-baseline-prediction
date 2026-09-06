@@ -56,8 +56,8 @@ privacy-preserving-scd-pain-diagnosis/
 
 Using conda:
 ```
-conda create -n scd-pain python=3.11
-conda activate scd-pain
+conda create -p venv python=3.13
+conda activate ./venv
 pip install -r requirements.txt
 ```
 
@@ -78,7 +78,7 @@ pip install -r requirements.txt
 
 - [x] Synthetic dataset generation (2,100 records, 6 cause classes)
 - [x] Synthetic "messy data" generator for data-cleaning practice
-- [ ] Data cleaning pipeline
+- [x] Data cleaning pipeline
 - [ ] Baseline plaintext classification model
 - [ ] Encrypted inference layer (homomorphic encryption via TenSEAL/CKKS)
 - [ ] Federated learning extension across multiple sites
