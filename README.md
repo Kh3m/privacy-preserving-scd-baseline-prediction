@@ -1,9 +1,8 @@
-# Privacy-Preserving SCD Pain Diagnosis
+# Privacy-Preserving SCD Baseline Prediction
 
-Identifying the likely cause of a chronic pain episode in sickle cell disease
-(SCD) patients, including vaso-occlusive crisis, infection, dehydration,
-avascular necrosis, and acute chest syndrome, without ever exposing raw
-patient data during computation.
+Modeling what drives an individual sickle cell disease (SCD) patient's own
+steady-state packed cell volume (PCV) and haemoglobin (Hb) baseline, without
+ever exposing raw patient data during computation.
 
 ## Status: Early-stage research prototype
 
@@ -15,17 +14,28 @@ patient data during computation.
 
 ## Why this project
 
-Sickle cell chronic pain can stem from several overlapping causes, and
-telling them apart at the point of care is difficult, especially in
-resource-constrained clinical settings. Existing machine learning work in
-this space largely focuses on predicting *whether* a crisis will occur, not
-*what* is causing a current pain episode. Patient health data is also
-sensitive, so any system touching it should be built so that raw data is
-never exposed to the system performing the computation.
+SCD patients live with chronic haemolytic anaemia, but the degree of
+anaemia each person experiences at steady state, that is, outside of an
+acute crisis, varies considerably from patient to patient. Some remain
+clinically stable with a PCV far below what would concern a doctor treating
+anyone else; others need a higher baseline to stay well. Clinicians often
+have only population-level reference ranges to judge against, which can
+mean transfusions given to patients whose "low" reading was in fact normal
+for them. That risk is real: blood is scarce and costly, even
+well-screened blood carries residual risk, recurrent transfusion can
+trigger antibody development that complicates future matching, and
+transfusion reactions can be severe.
+
+This project models what actually influences an individual patient's own
+steady-state PCV/Hb, using degree of haemolysis, genotype, environment, and
+nutrition as inputs, so a clinician can distinguish a patient's normal
+baseline from genuine deterioration. Chronic pain frequency is a related
+outcome of interest alongside this, not yet the primary target.
 
 This project combines:
-- **Cause classification**: a multiclass model distinguishing likely causes
-  of a current pain episode
+- **Baseline prediction**: a regression model estimating a patient's
+  expected steady-state PCV/Hb from their own clinical and contextual
+  factors
 - **Homomorphic encryption (HE)**: patient feature data is encrypted before
   any inference is performed, so the computing system never sees plaintext
   patient data
@@ -34,13 +44,10 @@ This project combines:
 - **Differential privacy (DP)** *(planned)*: protecting against information
   leakage through shared model updates in the federated setting
 
-As far as we've been able to determine, this specific combination has not
-been applied to sickle cell disease before (see Related Work below).
-
 ## Repository structure
 
 ```
-privacy-preserving-scd-pain-diagnosis/
+privacy-preserving-scd-baseline-prediction/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
@@ -74,12 +81,23 @@ pip install -r requirements.txt
    ```
 3. Clean the data (see `notebooks/` for the working cleaning notebook)
 
+> **Note:** the synthetic dataset and cleaning pipeline below were built
+> around the project's earlier framing (classifying the cause of a pain
+> episode: VOC, infection, dehydration, AVN, ACS). They need to be
+> regenerated around the current target, degree of haemolysis, genotype,
+> environment, and nutrition as features, steady-state PCV/Hb as the label,
+> before they're reusable for this direction.
+
 ## Roadmap
 
-- [x] Synthetic dataset generation (2,100 records, 6 cause classes)
+- [x] Synthetic dataset generation for the earlier pain-cause framing
+      (superseded, needs regeneration for the current target)
 - [x] Synthetic "messy data" generator for data-cleaning practice
-- [x] Data cleaning pipeline
-- [ ] Baseline plaintext classification model
+      (superseded, needs regeneration for the current target)
+- [x] Data cleaning pipeline (approach carries over; needs re-running on
+      regenerated data)
+- [ ] Synthetic dataset regenerated for steady-state PCV/Hb prediction
+- [ ] Baseline plaintext regression model
 - [ ] Encrypted inference layer (homomorphic encryption via TenSEAL/CKKS)
 - [ ] Federated learning extension across multiple sites
 - [ ] Differential privacy on shared model updates
@@ -89,13 +107,11 @@ pip install -r requirements.txt
 ## Related work
 
 This project builds conceptually on prior work applying partial homomorphic
-encryption to healthcare data analysis. It is distinct from the closest
-related work we're aware of, a 2026 study applying federated learning
-(without an encryption or differential privacy layer) to a sickle cell
-classification task. This project differs by (1) adding a privacy-preserving
-encryption and DP layer on top of FL, and (2) focusing on cause
-differentiation for chronic pain rather than disease presence or
-classification.
+encryption to healthcare data analysis. The related-work landscape for this
+specific framing, individual steady-state PCV/Hb prediction in SCD under a
+privacy-preserving architecture, has not yet been re-checked since the
+project's direction changed, and should be verified before this section
+makes any novelty claims.
 
 ## Collaborators
 
