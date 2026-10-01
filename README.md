@@ -53,11 +53,20 @@ privacy-preserving-scd-baseline-prediction/
 ├── .gitignore
 ├── data/
 │   ├── raw/              # data as generated, never edited in place
-│   └── processed/        # cleaned output
+│   ├── processed/        # cleaned output
+│   └── real/             # real patient data, local only (git-ignored)
 ├── notebooks/            # exploration and data cleaning work
 ├── src/                  # reusable scripts (data generation, model, encryption, app)
 └── models/               # trained model artifacts
 ```
+
+### Data handling
+
+All data in `data/raw/` and `data/processed/` is synthetic and safe to
+commit. Any real patient data must be stored only in `data/real/`, which is
+listed in `.gitignore` so it is never committed or pushed. Do not copy real
+records into any other folder, and clear notebook outputs before committing
+if a notebook has displayed real data.
 
 ## Setup
 
@@ -70,23 +79,27 @@ pip install -r requirements.txt
 
 ## How to run (current steps)
 
-1. Generate the synthetic dataset:
+Run all commands from the project root.
+
+1. Generate the synthetic dataset (writes
+   `data/raw/synthetic_scd_baseline_data.csv`):
    ```
-   python src/generate_synthetic_data.py
+   python src/generate_synthetic_scd_baseline_data.py
    ```
 2. (Optional, for practice or testing) generate a version with realistic
-   data quality issues injected:
+   data quality issues injected (writes
+   `data/raw/synthetic_scd_baseline_data_MESSY.csv`):
    ```
-   python src/make_data_messy.py
+   python src/make_scd_baseline_data_messy.py
    ```
 3. Clean the data (see `notebooks/` for the working cleaning notebook)
 
-> **Note:** the synthetic dataset and cleaning pipeline below were built
-> around the project's earlier framing (classifying the cause of a pain
-> episode: VOC, infection, dehydration, AVN, ACS). They need to be
-> regenerated around the current target, degree of haemolysis, genotype,
-> environment, and nutrition as features, steady-state PCV/Hb as the label,
-> before they're reusable for this direction.
+> **Note:** the synthetic dataset has been regenerated for the current
+> target: degree of haemolysis, genotype, HbF, environment, and nutrition
+> as features, steady-state PCV as the label. The cleaning notebook has not
+> been updated yet. It still loads and cleans the earlier pain-cause
+> dataset (`synthetic_sickle_cell_data_MESSY.csv`, labelled by
+> `cause_label`) and needs reworking for the new data.
 
 ## Roadmap
 
@@ -94,9 +107,11 @@ pip install -r requirements.txt
       (superseded, needs regeneration for the current target)
 - [x] Synthetic "messy data" generator for data-cleaning practice
       (superseded, needs regeneration for the current target)
-- [x] Data cleaning pipeline (approach carries over; needs re-running on
-      regenerated data)
-- [ ] Synthetic dataset regenerated for steady-state PCV/Hb prediction
+- [x] Data cleaning pipeline for the earlier pain-cause dataset
+      (approach carries over to the new dataset)
+- [x] Synthetic dataset regenerated for steady-state PCV/Hb prediction
+- [x] Messy data generator for the steady-state PCV/Hb dataset
+- [ ] Cleaning notebook updated for the steady-state PCV/Hb dataset
 - [ ] Baseline plaintext regression model
 - [ ] Encrypted inference layer (homomorphic encryption via TenSEAL/CKKS)
 - [ ] Federated learning extension across multiple sites

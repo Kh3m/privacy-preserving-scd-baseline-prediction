@@ -33,6 +33,10 @@ models/*.pkl
 models/*.pt
 models/*.h5
 
+# Hide real data
+data/real
+
+
 # Large data - uncomment if datasets grow too large to commit
 # data/raw/*.csv
 # data/processed/*.csv
