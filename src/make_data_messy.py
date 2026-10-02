@@ -22,8 +22,8 @@ import pandas as pd
 
 RNG = np.random.default_rng(7)
 
-IN_PATH = "/home/claude/sickle_cell_project/data/synthetic_sickle_cell_data.csv"
-OUT_PATH = "/home/claude/sickle_cell_project/data/synthetic_sickle_cell_data_MESSY.csv"
+IN_PATH = "data/raw/synthetic_sickle_cell_data.csv"
+OUT_PATH = "data/raw/synthetic_sickle_cell_data_MESSY.csv"
 
 
 def introduce_missing_values(df, cols, frac=0.03):
