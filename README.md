@@ -55,7 +55,9 @@ privacy-preserving-scd-baseline-prediction/
 │   ├── raw/              # data as generated, never edited in place
 │   ├── processed/        # cleaned output
 │   └── real/             # real patient data, local only (git-ignored)
-├── notebooks/            # exploration and data cleaning work
+├── notebooks/
+│   ├── scd_baseline_data_cleaning.ipynb   # cleans the current PCV/Hb dataset
+│   └── data_cleaning.ipynb                # legacy: earlier pain-cause dataset
 ├── src/                  # reusable scripts (data generation, model, encryption, app)
 └── models/               # trained model artifacts
 ```
@@ -92,14 +94,24 @@ Run all commands from the project root.
    ```
    python src/make_scd_baseline_data_messy.py
    ```
-3. Clean the data (see `notebooks/` for the working cleaning notebook)
+3. Clean the data by running
+   `notebooks/scd_baseline_data_cleaning.ipynb` top to bottom (writes
+   `data/processed/synthetic_scd_baseline_data_CLEANED.csv`). Its file
+   paths are relative to `notebooks/`, which is the kernel's default
+   working directory in Jupyter and VS Code.
 
-> **Note:** the synthetic dataset has been regenerated for the current
-> target: degree of haemolysis, genotype, HbF, environment, and nutrition
-> as features, steady-state PCV as the label. The cleaning notebook has not
-> been updated yet. It still loads and cleans the earlier pain-cause
-> dataset (`synthetic_sickle_cell_data_MESSY.csv`, labelled by
-> `cause_label`) and needs reworking for the new data.
+The notebook follows three phases: diagnose (shape, dtypes, per-column
+profiling, duplicates), fix (drop empty and duplicate rows, strip unit text
+from numeric fields, normalise genotype/environment/nutrition spellings,
+null impossible values, impute what's left), and verify (zero missing
+values, zero duplicates).
+
+### Legacy files
+
+`notebooks/data_cleaning.ipynb`, `src/make_data_messy.py`, and the
+`synthetic_sickle_cell_data*.csv` files belong to the earlier pain-cause
+framing (labelled by `cause_label`). They are kept for reference only and
+are not part of the current pipeline.
 
 ## Roadmap
 
@@ -111,7 +123,10 @@ Run all commands from the project root.
       (approach carries over to the new dataset)
 - [x] Synthetic dataset regenerated for steady-state PCV/Hb prediction
 - [x] Messy data generator for the steady-state PCV/Hb dataset
-- [ ] Cleaning notebook updated for the steady-state PCV/Hb dataset
+- [x] Cleaning notebook for the steady-state PCV/Hb dataset
+      (first pass)
+- [ ] Cleaning follow-ups: null the remaining injected outliers (LDH,
+      reticulocyte %, PCV) and avoid imputing features from the label
 - [ ] Baseline plaintext regression model
 - [ ] Encrypted inference layer (homomorphic encryption via TenSEAL/CKKS)
 - [ ] Federated learning extension across multiple sites
