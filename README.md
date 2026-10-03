@@ -103,8 +103,11 @@ Run all commands from the project root.
 The notebook follows three phases: diagnose (shape, dtypes, per-column
 profiling, duplicates), fix (drop empty and duplicate rows, strip unit text
 from numeric fields, normalise genotype/environment/nutrition spellings,
-null impossible values, impute what's left), and verify (zero missing
-values, zero duplicates).
+null values outside clinically plausible ranges, drop rows with no valid
+label, impute remaining feature gaps with genotype-group medians), and
+verify (zero missing values, zero duplicates). Range limits are
+deliberately wide and should be confirmed with a clinical partner before
+use on real data.
 
 ### Legacy files
 
@@ -124,9 +127,6 @@ are not part of the current pipeline.
 - [x] Synthetic dataset regenerated for steady-state PCV/Hb prediction
 - [x] Messy data generator for the steady-state PCV/Hb dataset
 - [x] Cleaning notebook for the steady-state PCV/Hb dataset
-      (first pass)
-- [ ] Cleaning follow-ups: null the remaining injected outliers (LDH,
-      reticulocyte %, PCV) and avoid imputing features from the label
 - [ ] Baseline plaintext regression model
 - [ ] Encrypted inference layer (homomorphic encryption via TenSEAL/CKKS)
 - [ ] Federated learning extension across multiple sites
