@@ -58,6 +58,8 @@ privacy-preserving-scd-baseline-prediction/
 ├── notebooks/
 │   ├── scd_baseline_data_cleaning.ipynb   # cleans the current PCV/Hb dataset
 │   └── data_cleaning.ipynb                # legacy: earlier pain-cause dataset
+├── docs/
+│   └── data_cleaning_tutorial.md          # shareable data-cleaning tutorial
 ├── src/                  # reusable scripts (data generation, model, encryption, app)
 └── models/               # trained model artifacts
 ```
